@@ -1,6 +1,8 @@
 import { test, expect } from "../fixtures";
+import { userData } from '../test-data/UserData';
+import { bookTitle } from '../test-data/BookData';
 
-test("Scenario 2: Delete book successfully", async ({ loginPage, bookStorePage, profilePage, bookApi, userData, bookTitle }) => {
+test("Scenario 2: Delete book successfully", async ({ loginPage, bookStorePage, profilePage, bookApi}) => {
 
     // Login
     await loginPage.goto();

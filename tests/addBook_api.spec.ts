@@ -1,13 +1,8 @@
 import { test, expect } from '../fixtures';
+import { userData } from '../test-data/UserData';
+import { bookTitle } from '../test-data/BookData';
 
-test('Scenario 1: Add book successfully', async ({
-  bookStorePage,
-  profilePage,
-  authApi,
-  bookApi,
-  userData,
-  bookTitle
-}) => {
+test('Scenario 1: Add book successfully', async ({bookStorePage, profilePage, authApi, bookApi,}) => {
     // Get userId 
     const { userId } = await authApi.login( userData.username, userData.password );
 
@@ -22,7 +17,7 @@ test('Scenario 1: Add book successfully', async ({
     console.log("ISBN:", isbn);
     expect(isbn).toBeTruthy();
 
-    // cleanup 
+    //cleanup 
     await bookApi.deleteBook( userId!, token!, isbn! );
 
     //add book by API

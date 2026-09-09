@@ -1,8 +1,10 @@
 import { test } from "../fixtures";
+import { userData } from '../test-data/UserData';
+import { bookTitle } from '../test-data/BookData';
 
 test(
     "Scenario 1: Delete book successfully with UI",
-    async ({ loginPage, bookStorePage, profilePage, userData, bookTitle }) => {
+    async ({ loginPage, bookStorePage, profilePage }) => {
 
         // Login
         await loginPage.goto();

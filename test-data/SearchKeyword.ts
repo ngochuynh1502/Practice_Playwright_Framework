@@ -1,0 +1,1 @@
+export const searchKeywords = ['Design', 'design', 'test']

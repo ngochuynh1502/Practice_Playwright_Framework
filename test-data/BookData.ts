@@ -1,0 +1,1 @@
+export const bookTitle = "Learning JavaScript Design Patterns";
