@@ -9,7 +9,7 @@ export type PageFixtures = {
   profilePage: Profile;
 };
 
-export const pageTest = base.extend<PageFixtures>({
+export const pageFixtures = base.extend<PageFixtures>({
   loginPage: async ({ page }, use) => {
     await use(new LoginPage(page));
   },
