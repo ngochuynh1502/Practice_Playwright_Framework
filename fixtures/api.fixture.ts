@@ -1,37 +1,15 @@
-import { BookApi } from '../api/BookApi';
-import { AuthApi } from '../api/AuthApi';
+import { test as baseTest, expect as baseExpect, APIRequestContext } from '@playwright/test';
 import { pageFixtures } from './page.fixture';
 
 export type ApiFixtures = {
-  authApi: AuthApi;
-  bookApi: BookApi;
+  request: APIRequestContext;
 };
 
 export const apiTest = pageFixtures.extend<ApiFixtures>({
-  authApi: async ({ request }, use) => {
-    await use(new AuthApi(request));
-  },
-  bookApi: async ({ request }, use) => {
-    await use(new BookApi(request));
+  request: async ({ request }, use) => {
+    await use(request);
   },
 });
 
-// import { AuthApi } from "../api/AuthApi";
-// import { BookApi } from "../api/BookApi";
-// import type { APIRequestContext } from "@playwright/test";
-
-// export const apiFixtures = {
-//   authApi: async (
-//     { request }: { request: APIRequestContext },
-//     use: any
-//   ) => {
-//     await use(new AuthApi(request));
-//   },
-
-//   bookApi: async (
-//     { request }: { request: APIRequestContext },
-//     use: any
-//   ) => {
-//     await use(new BookApi(request));
-//   },
-// };
+export const test = apiTest;
+export const expect = baseExpect;

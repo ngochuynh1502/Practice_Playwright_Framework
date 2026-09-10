@@ -1,57 +1,40 @@
-import { test } from "../fixtures";
-import { userData } from '../test-data/UserData';
-import { bookTitle } from '../test-data/BookData';
+import { test, expect } from "@playwright/test";
+import { BookHelper } from "../helper/api/book-helper";
+import { AccountHelper } from "../helper/api/account-helper";
+import { BrowserManagement } from "../core/browser/browser-management";
+import { BASE_URL } from "../constants/url";
 
-test(
-    "Scenario 1: Delete book successfully with UI",
-    async ({ loginPage, bookStorePage, profilePage }) => {
+import { bookData } from "../test-data/BookData";
+import { userData } from "../test-data/UserData";
 
-        // Login
-        await loginPage.goto();
-        await loginPage.login(
-            userData.username,
-            userData.password
-        );
+import { LoginPage } from "../page-object/LoginPage";
+import { ProfilePage } from "../page-object/ProfilePage";
+import { BookStorePage } from "../page-object/BookStorePage";
 
-        // Ensure book not exists
-        await profilePage.gotoProfilePage();
-        await profilePage.deleteBookIfExists(
-            bookTitle
-        );
+test.beforeEach(async ({ request }) => {
+    const genTokenResponse = await AccountHelper.generateToken(userData.username, userData.password);
+    const jsonTokenResponse: { token: string } = await genTokenResponse.json();
+    const token: string = jsonTokenResponse["token"];
 
-        await profilePage.verifyBookDisplayed(
-            bookTitle,
-            false
-        );
+    await BookHelper.addBook(token, bookData.isbn, userData.userId);
+});
 
+test("Verify delete book successfully @smoke", async ({ page }) => {
+    BrowserManagement.setCurrentPage(page);
+    await page.goto(BASE_URL);
 
-        // Add book via UI
-        await bookStorePage.goto();
-        await bookStorePage.searchBook(
-            bookTitle
-        );
+    const loginPage = new LoginPage(page);
+    const profilePage = new ProfilePage(page);
+    const bookStorePage = new BookStorePage(page);
 
-        await bookStorePage.addBookByTitle(
-            bookTitle
-        );
+    await bookStorePage.goToLoginPage();
+    await loginPage.login(userData.username, userData.password);
 
-        // Verify book added
-        await console.log("Added book:", bookTitle);
-        await profilePage.gotoProfilePage();
-        await profilePage.verifyBookDisplayed(
-            bookTitle,
-            true
-        );
+    await bookStorePage.waitForUserNameDisplayed();
+    await bookStorePage.goToProfilePage();
 
-        // Delete book
-        await console.log("Deleting book:", bookTitle);
-        await profilePage.deleteTheBook(
-            bookTitle
-        );
+    await profilePage.deleteBookByName("Learning JavaScript Design Patterns");
 
-        // Verify book deleted
-        await profilePage.verifyBookDisplayed(
-            bookTitle,
-            false
-        );
-    });
+    const doesBookExist = await profilePage.doesBookExist("Learning JavaScript Design Patterns");
+    expect(doesBookExist).toBe(false);
+});
