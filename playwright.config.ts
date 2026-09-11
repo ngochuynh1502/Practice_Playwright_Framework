@@ -31,9 +31,9 @@ export default defineConfig({
 
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
   use: {
-    screenshot: 'only-on-failure',
+    screenshot: 'on', //'only-on-failure',
     trace: 'retain-on-failure', 
-    video: 'retain-on-failure',
+    video: 'on' //'retain-on-failure',
     /* Base URL to use in actions like `await page.goto('')`. */
     // baseURL: 'http://localhost:3000',
 

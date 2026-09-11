@@ -15,6 +15,8 @@ test("Delete book via API", async ({ request }) => {
     const token = jsonTokenResponse.token;
     expect(token).toBeTruthy();
 
+    const deleteBook = await BookHelper.deleteBook(token, bookData.isbn, userData.userId);
+
     const addBookResponse = await BookHelper.addBook(token, bookData.isbn, userData.userId);
     expect(addBookResponse.ok()).toBeTruthy();
 
