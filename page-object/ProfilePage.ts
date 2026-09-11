@@ -7,6 +7,7 @@ export class ProfilePage extends BasePage {
   searchBox: Element;
   bookLink: Element;
   deleteIcon: Element;
+  table: Element;
 
   constructor(page: any) {
     super(page);
@@ -14,6 +15,7 @@ export class ProfilePage extends BasePage {
     this.searchBox = new Element("#searchBox");
     this.bookLink = new Element(`xpath=//a[.="${bookData.title}"]`);
     this.deleteIcon = new Element(`id=delete-record-${bookData.isbn}`); //('xpath=//span[@title="Delete"]');
+    this.table = new Element("xpath=//table");
   }
 
   async searchBookInProfile(bookTitle: string): Promise<void> {
@@ -21,11 +23,9 @@ export class ProfilePage extends BasePage {
   }
 
   async doesBookExist(bookTitle: string): Promise<boolean> {
+    await this.table.waitForElementToBeVisible();
     const numberOfElement = await this.bookLink.getNumberOfElements();
-    if (numberOfElement > 0) {
-      return true;
-    }
-    return false;
+    return numberOfElement > 0;
   }
 
   async deleteBookByName(bookTitle: string): Promise<void> {

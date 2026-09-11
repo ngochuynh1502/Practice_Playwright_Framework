@@ -35,7 +35,6 @@ test("Verify delete book successfully @smoke", async ({ page, basePage, loginPag
     await basePage.goToProfilePage();
     await profilePage.searchBookInProfile(bookData.title);
     
-    await profilePage.searchBookInProfile(bookData.title);
 
     const doesBookExistBeforeDelete = await profilePage.doesBookExist(bookData.title);
     expect(doesBookExistBeforeDelete).toBe(true);
