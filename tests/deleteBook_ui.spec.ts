@@ -16,8 +16,7 @@ test.beforeEach(async ({ request }) => {
     await BookHelper.addBook(token, bookData.isbn, userData.userId);
 });
 
-test("Verify delete book successfully", async ({ page, basePage, loginPage, bookStorePage, profilePage }) => {
-    BrowserManagement.setCurrentPage(page);
+test("Verify delete book successfully", async ({ basePage, loginPage, bookStorePage, profilePage }) => {
     // Log in to the application
     await basePage.goToLoginPage();
     await loginPage.login(userData.username, userData.password);
