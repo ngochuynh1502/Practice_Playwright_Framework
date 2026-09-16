@@ -24,10 +24,10 @@ export class BasePage {
     await this.goTo(BASE_URL + FRONTEND_BOOKSTORE_ENDPOINTS.LOGIN);
   }
 
-  async goToProfilePage(){
+  async goToProfilePage() {
     await this.goTo(BASE_URL + FRONTEND_BOOKSTORE_ENDPOINTS.PROFILE);
   }
-  
+
   async registerAlert(timeout: number = 5000): Promise<void> {
     await BrowserUtils.registerAlert(timeout);
   }
@@ -38,5 +38,9 @@ export class BasePage {
 
   async waitForUserNameDisplayed() {
     await this.userNameLabel.waitForElementToBeVisible();
+  }
+
+  async goToWebtablesPage() {
+    await this.goTo(BASE_URL + FRONTEND_BOOKSTORE_ENDPOINTS.WEBTABLES);
   }
 }

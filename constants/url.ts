@@ -8,6 +8,7 @@ export const FRONTEND_BOOKSTORE_ENDPOINTS = {
     PROFILE:         '/profile',
     BOOKSTORE:       '/books',
     BOOKDETAIL:      '/books?book=',
+    WEBTABLES:       '/webtables',
 };
 
 // TOOLSQA BOOKSTORE API
