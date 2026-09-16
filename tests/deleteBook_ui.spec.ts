@@ -16,7 +16,7 @@ test.beforeEach(async ({ request }) => {
     await BookHelper.addBook(token, bookData.isbn, userData.userId);
 });
 
-test("Verify delete book successfully @smoke", async ({ page, basePage, loginPage, bookStorePage, profilePage }) => {
+test("Verify delete book successfully", async ({ page, basePage, loginPage, bookStorePage, profilePage }) => {
     BrowserManagement.setCurrentPage(page);
     // Log in to the application
     await basePage.goToLoginPage();
@@ -34,16 +34,16 @@ test("Verify delete book successfully @smoke", async ({ page, basePage, loginPag
     // Verify that the book exists in the profile before deletion
     await basePage.goToProfilePage();
     await profilePage.searchBookInProfile(bookData.title);
-    
 
-    const doesBookExistBeforeDelete = await profilePage.doesBookExist(bookData.title);
-    expect(doesBookExistBeforeDelete).toBe(true);
-    console.log(`Book "${bookData.title}" exists in profile before deletion: ${doesBookExistBeforeDelete}`);
+
+    await profilePage.doesBookExist(bookData.title, true);
+    console.log(`Book "${bookData.title}" exists in profile before deletion`);
 
     await profilePage.deleteBookByName(bookData.title);
+    //await profilePage.deleteBookByIsbn(bookData.isbn);
 
     await profilePage.searchBookInProfile(bookData.title);
-    const doesBookExistAfterDelete = await profilePage.doesBookExist(bookData.title);
-    expect(doesBookExistAfterDelete).toBe(false);
-    console.log(`Book "${bookData.title}" is exists in profile after deletion: ${doesBookExistAfterDelete}`);
+
+    await profilePage.doesBookExist(bookData.title, false);
+    console.log(`Book "${bookData.title}" does not exist in profile after deletion`);
 });
