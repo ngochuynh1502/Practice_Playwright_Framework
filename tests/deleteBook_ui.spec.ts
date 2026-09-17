@@ -1,20 +1,8 @@
 import { test, expect } from "../fixtures/page.fixture";
-import { BookHelper } from "../helper/api/book-helper";
-import { AccountHelper } from "../helper/api/account-helper";
-import { BrowserManagement } from "../core/browser/browser-management";
 
 import { bookData } from "../test-data/BookData";
 import { userData } from "../test-data/UserData";
 
-test.beforeEach(async ({ request }) => {
-    BrowserManagement.request = request;
-
-    const genTokenResponse = await AccountHelper.generateToken(request, userData.username, userData.password);
-    const jsonTokenResponse: { token: string } = await genTokenResponse.json();
-    const token: string = jsonTokenResponse["token"];
-
-    await BookHelper.addBook(token, bookData.isbn, userData.userId);
-});
 
 test("Verify delete book successfully", async ({ basePage, loginPage, bookStorePage, profilePage }) => {
     // Log in to the application
