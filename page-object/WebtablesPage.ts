@@ -1,7 +1,6 @@
 import { Element } from "../core/elements/element";
 import { BasePage } from "./BasePage";
-import { UserRecord } from "../models/user-record";
-import { createRandomUser } from "../test-data/UserGenerator";
+import { UserRecord } from "../models/UserRecord";
 
 export class WebtablesPage extends BasePage {
   addButton: Element;

@@ -1,4 +1,4 @@
-import { UserRecord } from "../models/user-record";
+import type { UserRecord } from "../models/UserRecord";
 
 export function createRandomUser(index: number)
 : UserRecord {
