@@ -1,5 +1,4 @@
 import { Element } from "../core/elements/element";
-import { BrowserUtils } from "../core/browser/browser-utils";
 import { Page } from "@playwright/test";
 import { BASE_URL, FRONTEND_BOOKSTORE_ENDPOINTS } from "../constants/url";
 
@@ -26,14 +25,6 @@ export class BasePage {
 
   async goToProfilePage() {
     await this.goTo(BASE_URL + FRONTEND_BOOKSTORE_ENDPOINTS.PROFILE);
-  }
-
-  async registerAlert(timeout: number = 5000): Promise<void> {
-    await BrowserUtils.registerAlert(timeout);
-  }
-
-  async handleAlert(): Promise<string> {
-    return await BrowserUtils.handleAlert();
   }
 
   async waitForUserNameDisplayed() {

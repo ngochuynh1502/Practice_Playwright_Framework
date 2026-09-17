@@ -1,18 +1,16 @@
-import { BasePage } from "./BasePage";
 import { Element } from "../core/elements/element";
 import { bookData } from "../test-data/BookData";
+import { BrowserUtils } from "../core/browser/browser-utils";
 
-export class ProfilePage extends BasePage {
+export class ProfilePage{
   okButton: Element;
   searchBox: Element;
   //deleteIcon: Element;
   table: Element;
 
-  constructor(page: any) {
-    super(page);
+  constructor() {
     this.okButton = new Element("id=closeSmallModal-ok");
     this.searchBox = new Element("#searchBox");
-    //this.deleteIcon = new Element('xpath=//span[@title="Delete"]'); //(`id=delete-record-${bookData.isbn}`);
     this.table = new Element("xpath=//table");
   }
 
@@ -20,7 +18,10 @@ export class ProfilePage extends BasePage {
     await this.searchBox.fillText(bookTitle);
   }
 
-  async doesBookExist(bookTitle: string, shouldExist: boolean): Promise<boolean> {
+  async doesBookExist(
+    bookTitle: string,
+    shouldExist: boolean,
+  ): Promise<boolean> {
     await this.table.waitForElementToBeVisible();
     const bookLink = new Element(`xpath=//a[.="${bookTitle}"]`);
     const numberOfElement = await bookLink.getNumberOfElements();
@@ -28,6 +29,13 @@ export class ProfilePage extends BasePage {
     return shouldExist ? numberOfElement > 0 : numberOfElement === 0;
   }
 
+  async handleAlert(): Promise<string> {
+    return await BrowserUtils.handleAlert();
+  }
+
+  async registerAlert(timeout: number = 5000): Promise<void> {
+    await BrowserUtils.registerAlert(timeout);
+  }
   async deleteBookByIsbn(isbn: string): Promise<void> {
     const deleteIcon = new Element(`xpath=//a[.="${isbn}"]`);
     await deleteIcon.click();
@@ -37,10 +45,9 @@ export class ProfilePage extends BasePage {
   }
 
   async deleteBookByName(bookTitle: string): Promise<void> {
-    const deleteIcon = new Element (`xpath=//a[contains(.,"${bookTitle}")]/ancestor::tr//span[@title='Delete']`)
-    //('xpath=//span[@title="Delete"]')
-    //(`xpath=//a[.="${bookTitle}"]/ancestor::div[@class="rt-tr-group"]//span[@title="Delete"]`);
-    //(`xpath=//a[contains(normalize-space(),"${bookTitle}")]/ancestor::div[contains(@class,'rt-tr-group')]//span[@title='Delete']`)
+    const deleteIcon = new Element(
+      `xpath=//a[contains(.,"${bookTitle}")]/ancestor::tr//span[@title='Delete']`,
+    );
     await deleteIcon.click();
     await this.registerAlert();
     await this.okButton.click();

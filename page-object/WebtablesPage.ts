@@ -39,7 +39,6 @@ export class WebtablesPage extends BasePage {
     this.rowsPerPageSelect = new Element("select.form-control");
     this.tableRows = new Element("tbody tr");
     this.registrationDialog = new Element("div[role='dialog']");
-    //new Element("div[role='dialog'][aria-modal='true']");
     this.closeButton = new Element(".btn-close")
   }
 
@@ -58,11 +57,9 @@ export class WebtablesPage extends BasePage {
     const users = Array.from({ length: count }, (_, index) =>
       this.createRandomUser(index),
     );
-
     for (const user of users) {
       await this.addUser(user);
     }
-
     return users;
   }
 

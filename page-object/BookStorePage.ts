@@ -1,16 +1,15 @@
 import { Page } from "@playwright/test";
-import { BasePage } from "./BasePage";
 import { Element } from "../core/elements/element";
 import { bookData } from "../test-data/BookData";
+import { BrowserUtils } from "../core/browser/browser-utils";
 
-export class BookStorePage extends BasePage {
+export class BookStorePage{
   searchInput: Element;
   userNameLabel: Element;
   addToCollectionButton: Element;
   bookTitleLinks: Element;
 
-  constructor(page: Page) {
-    super(page);
+  constructor() {
     this.searchInput = new Element("#searchBox");
     this.userNameLabel = new Element("id=userName-value");
     this.addToCollectionButton = new Element('xpath=//button[.="Add To Your Collection"]');
@@ -33,6 +32,11 @@ export class BookStorePage extends BasePage {
     await this.searchBook(bookTitle);
     await bookLink.click();
   }
+
+    async handleAlert(): Promise<string> {
+    return await BrowserUtils.handleAlert();
+  }
+
   async addBookToCollection(bookTitle: string): Promise<void> {
     await this.goToBookDetailsPage(bookTitle);
     await this.addToCollectionButton.click();
