@@ -1,14 +1,7 @@
 import { Element } from "../core/elements/element";
 import { BasePage } from "./BasePage";
-
-export interface UserRecord {
-  firstName: string;
-  lastName: string;
-  email: string;
-  age: string;
-  salary: string;
-  department: string;
-}
+import { UserRecord } from "../models/user-record";
+import { createRandomUser } from "../test-data/UserGenerator";
 
 export class WebtablesPage extends BasePage {
   addButton: Element;
@@ -39,7 +32,7 @@ export class WebtablesPage extends BasePage {
     this.rowsPerPageSelect = new Element("select.form-control");
     this.tableRows = new Element("tbody tr");
     this.registrationDialog = new Element("div[role='dialog']");
-    this.closeButton = new Element(".btn-close")
+    this.closeButton = new Element(".btn-close");
   }
 
   async addUser(user: UserRecord): Promise<void> {
@@ -53,15 +46,15 @@ export class WebtablesPage extends BasePage {
     await this.submitButton.click();
   }
 
-  async addRandomUsers(count: number): Promise<UserRecord[]> {
-    const users = Array.from({ length: count }, (_, index) =>
-      this.createRandomUser(index),
-    );
-    for (const user of users) {
-      await this.addUser(user);
-    }
-    return users;
-  }
+  // async addRandomUsers(count: number): Promise<UserRecord[]> {
+  //   const users = Array.from({ length: count }, (_, index) =>
+  //     createRandomUser(index),
+  //   );
+  //   for (const user of users) {
+  //     await this.addUser(user);
+  //   }
+  //   return users;
+  // }
 
   async searchUser(email: string): Promise<void> {
     await this.searchInput.fillText(email);
@@ -71,28 +64,16 @@ export class WebtablesPage extends BasePage {
     return await this.tableRows.getNumberOfElements();
   }
 
-  async getVisibleUsers(): Promise<string[]> {
-    await this.rowsPerPageSelect.selectOption("50");
+  async showNumberOfRecord(numberOfRecords: number): Promise<string[]> {
+    await this.rowsPerPageSelect.selectOption(numberOfRecords.toString());
     return await this.tableRows.allInnerTexts();
   }
 
-  private createRandomUser(index: number): UserRecord {
-    const suffix = `${Date.now()}${index}${Math.floor(Math.random() * 10)}`;
-
-    return {
-      firstName: `AutoFirst${suffix}`,
-      lastName: `AutoLast${suffix}`,
-      email: `auto${suffix}@example.com`,
-      age: String(20 + Math.floor(Math.random() * 41)),
-      salary: String(30000 + Math.floor(Math.random() * 20)),
-      department: `QA-${Math.floor(Math.random() * 30)}`,
-    };
-  }
 
   async isRegistrationDialogVisible(): Promise<boolean> {
     return await this.registrationDialog.isVisible();
   }
   async closeRegistrationDialog(): Promise<void> {
     await this.closeButton.click();
-}
+  }
 }
