@@ -1,0 +1,5 @@
+First_Name,Last_Name,Email,Age,Salary,Department
+Ngoc,Tester,ngoc1@test.com,ab,60000,QA
+Ngoc,Tester,ngoc2@test.com,1a,60000,QA
+Ngoc,Tester,ngoc3@test.com,@$,60000,QA
+Ngoc,Tester,ngoc4@test.com,,60000,QA

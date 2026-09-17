@@ -43,16 +43,6 @@ export class WebtablesPage {
     await this.submitButton.click();
   }
 
-  // async addRandomUsers(count: number): Promise<UserRecord[]> {
-  //   const users = Array.from({ length: count }, (_, index) =>
-  //     createRandomUser(index),
-  //   );
-  //   for (const user of users) {
-  //     await this.addUser(user);
-  //   }
-  //   return users;
-  // }
-
   async searchUser(email: string): Promise<void> {
     await this.searchInput.fillText(email);
   }
@@ -70,6 +60,7 @@ export class WebtablesPage {
   async isRegistrationDialogVisible(): Promise<boolean> {
     return await this.registrationDialog.isVisible();
   }
+
   async closeRegistrationDialog(): Promise<void> {
     await this.closeButton.click();
   }

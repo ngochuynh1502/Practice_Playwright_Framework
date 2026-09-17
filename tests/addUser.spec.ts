@@ -1,6 +1,8 @@
 import { test, expect } from "../fixtures/page.fixture";
-import { validUser, invalidUserData } from "../test-data/WebtablesUserData";
+import { readCsvRecords } from "../test-data/CsvReader";
 import { createRandomUser } from "../test-data/UserGenerator";
+import { validUser, invalidUserData } from "../test-data/WebtablesUserData";
+import type { UserRecord } from "../models/UserRecord";
 
 test("Scenario 1: Add a user from test data", async ({
     basePage,
@@ -39,7 +41,6 @@ test("Scenario 2: Add random users to the web table", async ({
 
     for (const user of users) {
         await webtablesPage.addUser(user);
-        //const users = await webtablesPage.addRandomUsers(10);
         console.log(`Checking user: ${JSON.stringify(user)}`);
         await webtablesPage.searchUser(user.email);
 
@@ -81,10 +82,37 @@ test("Scenario 3: Verify invalid email formats block submission", async ({
         expect(await webtablesPage.isRegistrationDialogVisible()).toBe(true);
 
         await webtablesPage.closeRegistrationDialog();
+
         await webtablesPage.searchUser(invalidEmail);
 
         const users = await webtablesPage.showNumberOfRecord(50);
         expect(users).toHaveLength(0);
         console.log(`${invalidEmail} is not added`);
+    }
+});
+
+test("Scenario 4: Verify invalid age values block submission from CSV", async ({
+    basePage,
+    webtablesPage,
+}) => {
+    await basePage.goToWebtablesPage();
+
+    const csvData = readCsvRecords<UserRecord>("User_InvalidAge.csv");
+    //console.log(csvData)
+
+    for (const record of csvData) {
+        await webtablesPage.addUser(record);
+        console.log(`Input user age: ${record.age}`);
+
+        expect(await webtablesPage.isRegistrationDialogVisible()).toBe(true);
+        console.log("Dialog visible:",await webtablesPage.isRegistrationDialogVisible());
+
+        await webtablesPage.closeRegistrationDialog();
+
+        await webtablesPage.searchUser(record.email);
+
+        const users = await webtablesPage.showNumberOfRecord(50);
+        expect(users).toHaveLength(0);
+        console.log(`${ record.email } with age ${ record.age } is not added`);
     }
 });
