@@ -21,15 +21,15 @@ export const pageFixtures = baseTest.extend<PageFixtures>({
   },
   bookStorePage: async ({ page }, use) => {
     BrowserManagement.setCurrentPage(page as Page);
-    await use(new BookStorePage(page));
+    await use(new BookStorePage());
   },
   profilePage: async ({ page }, use) => {
     BrowserManagement.setCurrentPage(page as Page);
-    await use(new ProfilePage(page));
+    await use(new ProfilePage());
   },
   webtablesPage: async ({ page }, use) => {
     BrowserManagement.setCurrentPage(page as Page);
-    await use(new WebtablesPage(page));
+    await use(new WebtablesPage());
   },
   basePage: async ({ page }, use) => {
     BrowserManagement.setCurrentPage(page as Page);

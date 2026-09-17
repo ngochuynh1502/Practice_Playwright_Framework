@@ -1,5 +1,4 @@
 import { test, expect } from "../fixtures/page.fixture";
-
 import { bookData } from "../test-data/BookData";
 import { userData } from "../test-data/UserData";
 
@@ -23,7 +22,7 @@ test("Verify delete book successfully", async ({ basePage, loginPage, bookStoreP
     await profilePage.searchBookInProfile(bookData.title);
 
 
-    await profilePage.doesBookExist(bookData.title, true);
+    expect(await profilePage.doesBookExist(bookData.title, true));
     console.log(`Book "${bookData.title}" exists in profile before deletion`);
 
     await profilePage.deleteBookByName(bookData.title);
@@ -31,6 +30,6 @@ test("Verify delete book successfully", async ({ basePage, loginPage, bookStoreP
 
     await profilePage.searchBookInProfile(bookData.title);
 
-    await profilePage.doesBookExist(bookData.title, false);
+    expect(await profilePage.doesBookExist(bookData.title, false));
     console.log(`Book "${bookData.title}" does not exist in profile after deletion`);
 });

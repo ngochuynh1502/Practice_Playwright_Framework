@@ -1,8 +1,7 @@
 import { Element } from "../core/elements/element";
-import { BasePage } from "./BasePage";
 import { UserRecord } from "../models/UserRecord";
 
-export class WebtablesPage extends BasePage {
+export class WebtablesPage {
   addButton: Element;
   firstNameInput: Element;
   lastNameInput: Element;
@@ -17,8 +16,7 @@ export class WebtablesPage extends BasePage {
   registrationDialog: Element;
   closeButton: Element;
 
-  constructor(page: any) {
-    super(page);
+  constructor() {
     this.addButton = new Element("#addNewRecordButton");
     this.firstNameInput = new Element("#firstName");
     this.lastNameInput = new Element("#lastName");
