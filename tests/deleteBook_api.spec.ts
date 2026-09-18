@@ -5,6 +5,7 @@ import { userData } from "../test-data/UserData";
 import { bookData } from "../test-data/BookData";
 import { readCsvRecords } from "../test-data/CsvReader";
 import type { DeleteBookValidationRecord } from "../models/DeleteBookValidationRecord";
+import { deleteBookCsvMapping } from "../test-data/mappings/deletebook-mapping";
 
 const parseCsvValue = (value: string | undefined): string | null | undefined => {
     if (value === undefined) {
@@ -68,11 +69,7 @@ test("Scenario: Delete book API rejects invalid isbn values from CSV", async ({ 
     const token = jsonTokenResponse.token;
     expect(token).toBeTruthy();
 
-    const invalidCases = readCsvRecords<DeleteBookValidationRecord>("csv/DeleteBook_InvalidData.csv", {
-        Scenario: "scenario",
-        ISBN: "isbn",
-        UserId: "userId",
-    }).filter((record) =>
+    const invalidCases = readCsvRecords<DeleteBookValidationRecord>("csv/DeleteBook_InvalidData.csv", deleteBookCsvMapping).filter((record) =>
         ["missing_isbn", "empty_isbn", "null_isbn", "invalid_isbn_format"].includes(record.scenario),
     );
 
@@ -130,11 +127,7 @@ test("Scenario: Delete book API rejects invalid userId values from CSV", async (
     const token = jsonTokenResponse.token;
     expect(token).toBeTruthy();
 
-    const invalidCases = readCsvRecords<DeleteBookValidationRecord>("csv/DeleteBook_InvalidData.csv", {
-        Scenario: "scenario",
-        ISBN: "isbn",
-        UserId: "userId",
-    }).filter((record) =>
+    const invalidCases = readCsvRecords<DeleteBookValidationRecord>("csv/DeleteBook_InvalidData.csv", deleteBookCsvMapping).filter((record) =>
         ["missing_userid", "empty_userid", "null_userid", "invalid_userid_format"].includes(record.scenario),
     );
 
