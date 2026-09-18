@@ -2,6 +2,7 @@ import { test, expect } from "../fixtures/page.fixture";
 import { readCsvRecords } from "../test-data/CsvReader";
 import { createRandomUser } from "../test-data/UserGenerator";
 import { validUser, invalidUserData } from "../test-data/WebtablesUserData";
+import {webTableCsvMapping} from "../test-data/mappings/webtables-mapping"
 import type { UserRecord } from "../models/UserRecord";
 
 test("Scenario 1: Add a user from test data", async ({
@@ -97,8 +98,8 @@ test("Scenario 4: Verify invalid age values block submission from CSV", async ({
 }) => {
     await basePage.goToWebtablesPage();
 
-    const csvData = readCsvRecords<UserRecord>("User_InvalidAge.csv");
-    //console.log(csvData)
+    const csvData = readCsvRecords<UserRecord>("User_InvalidAge.csv",webTableCsvMapping);
+    console.log(csvData)
 
     for (const record of csvData) {
         await webtablesPage.addUser(record);

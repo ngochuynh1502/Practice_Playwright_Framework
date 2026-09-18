@@ -3,6 +3,7 @@ import path from "path";
 
 export function readCsvRecords<T>(
     fileName: string,
+    mapping?: Record<string, string>
 ): T[] {
     const csvPath = path.resolve(__dirname, fileName);
     const fileContent = fs.readFileSync(csvPath, "utf-8").trim();
@@ -12,19 +13,10 @@ export function readCsvRecords<T>(
         return [];
     }
 
-    const headerMapping: Record<string, string> = {
-      First_Name: "firstName",
-      Last_Name: "lastName",
-      Email: "email",
-      Age: "age",
-      Salary: "salary",
-      Department: "department",
-    };
-
     const headers = headerLine
       .split(",")
       .map((header) => header.trim())
-      .map((header) => headerMapping[header] ?? header)
+      .map((header) => mapping?.[header] ?? header)
       .filter(Boolean);
 
     return rows
