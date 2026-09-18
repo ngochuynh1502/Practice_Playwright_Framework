@@ -1,0 +1,9 @@
+Scenario,ISBN,UserId
+missing_isbn,missing,f199ce03-fc14-4da6-b8c1-fb445a568830
+empty_isbn,,f199ce03-fc14-4da6-b8c1-fb445a568830
+null_isbn,null,f199ce03-fc14-4da6-b8c1-fb445a568830
+invalid_isbn_format,12345,f199ce03-fc14-4da6-b8c1-fb445a568830
+missing_userid,9781449331818,missing
+empty_userid,9781449331818,
+null_userid,9781449331818,null
+invalid_userid_format,9781449331818,invalid-user-id
